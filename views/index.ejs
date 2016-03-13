@@ -1,0 +1,78 @@
+<html>
+<head>
+<title></title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script type ="text/javascript" src="/socket.io/socket.io.js"></script> -->
+    <script type ="text/javascript">
+        $(document).ready(function (){
+            // this triggers the connection event in our server!
+            // var socket = io.connect();
+            // we'll write all the socket stuff after the above line!
+
+          function Target(cx, cy) {
+            this.info = { cx: cx, cy: cy};
+            this.initialize = function(){
+              var target = makeSVG('circle',
+              {
+                cx: this.info.cx,
+                cy: this.info.cy,
+                r: 10,
+                id: 1,
+                style: "fill: black"
+              });
+              document.getElementById('svg').appendChild(target);
+            }
+
+            var makeSVG = function(tag, attrs) {
+        	        var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+        	        for (var k in attrs)
+        	        {
+        	            el.setAttribute(k, attrs[k]);
+        	        }
+        	        return el;
+        	    }
+
+            this.initialize();
+
+          }
+
+          function BattleGround()
+          {
+            this.createNewTarget = function(x,y){
+              var target = new Target(x,y);
+              // circles.push(new_circle);
+              // console.log('created a new circle!', new_circle);
+            }
+            this.createNewTarget(document.body.clientWidth/2, document.body.clientHeight/2);
+
+          }
+
+
+          // socket.on('server_response', function (data){
+          //
+          // });
+          var battleground = new BattleGround();
+          document.onclick = function(e) {
+            console.log(e.x + " X AND Y " + e.y);
+            battleground.createNewTarget(e.x, e.y);
+        		// playground.createNewCircle(e.x,e.y);
+        	}
+
+        });
+    </script>
+    <style>
+		#svg {
+			width: 100%;
+			height: 100%;
+		}
+		*{
+			border: 0px;
+			margin: 0px;
+			padding: 0px;
+		}
+</head>
+<body>
+  <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+</body>
+</html>
